@@ -91,6 +91,21 @@ Wir klassifizieren Sicherheitslücken nach folgendem Schema:
 - ✅ Implementieren Sie Rate Limiting
 - ✅ Loggen Sie sicherheitsrelevante Events
 
+### Für API-Entwickler
+
+> Siehe auch [API Design Guidelines - CORS & Security](docs/API_GUIDELINES.md#17-cors--security)
+
+- ✅ **Authentifizierung**: OAuth2, SSO oder API Keys implementieren
+- ✅ **Autorisierung**: Scope-basierte Zugriffskontrolle (RBAC)
+- ✅ **API Key Rotation**: Mindestens alle 90 Tage
+- ✅ **Rate Limiting**: Pro Authentifizierungs-Typ implementieren
+- ✅ **CORS**: Nur vertrauenswürdige Domains zulassen
+- ✅ **Security Headers**: HSTS, CSP, X-Content-Type-Options, etc.
+- ✅ **Input Validation**: Alle API-Eingaben validieren
+- ✅ **HTTPS/TLS**: Ausschließlich verschlüsselte Verbindungen
+- ✅ **Request IDs**: X-Request-ID und X-Flow-ID für Tracing
+- ✅ **OWASP API Security Top 10**: Spezifische API-Bedrohungen kennen
+
 ## Bekannte Sicherheitsaspekte
 
 ### Authentifizierung und Autorisierung
@@ -112,6 +127,54 @@ Wir klassifizieren Sicherheitslücken nach folgendem Schema:
 - Regelmäßige Überprüfung von Dependencies auf Sicherheitslücken
 - Verwendung von Tools wie Dependabot, Snyk oder npm audit
 - Minimierung der Anzahl an Dependencies
+
+### API-spezifische Sicherheit
+
+> Detaillierte API-Sicherheitsrichtlinien: [API_GUIDELINES.md](docs/API_GUIDELINES.md)
+
+#### OAuth2 und Token-Management
+- Sichere Token-Speicherung (niemals im Local Storage)
+- Token-Rotation und -Refresh implementieren
+- Short-lived Access Tokens (1 Stunde max)
+- Refresh Tokens mit angemessener Gültigkeit (30 Tage)
+
+#### API Keys
+- Sichere Speicherung in Umgebungsvariablen oder Secret Management
+- Regelmäßige Rotation (mindestens alle 90 Tage)
+- Scope-basierte Einschränkungen
+- Automatische Key-Rotation Reminders
+
+#### Rate Limiting
+- Implementierung pro Authentifizierungs-Typ
+- Schutz vor Brute-Force-Angriffen
+- DDoS-Mitigation
+- Response Headers für Limit-Status
+
+#### CORS (Cross-Origin Resource Sharing)
+- Whitelisting vertrauenswürdiger Domains
+- Keine Wildcard-Origins in Production
+- Preflight-Requests korrekt behandeln
+
+#### Security Headers (Pflicht für alle API-Responses)
+```http
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000
+Content-Security-Policy: default-src 'none'
+```
+
+#### OWASP API Security Top 10 (2023)
+1. **Broken Object Level Authorization** - Prüfe Zugriffsrechte auf Objektebene
+2. **Broken Authentication** - Sichere Authentifizierung implementieren
+3. **Broken Object Property Level Authorization** - Validiere Feldebenen-Zugriff
+4. **Unrestricted Resource Consumption** - Rate Limiting und Quotas
+5. **Broken Function Level Authorization** - Funktions-Level Autorisierung
+6. **Unrestricted Access to Sensitive Business Flows** - Business Flow Schutz
+7. **Server Side Request Forgery (SSRF)** - URL-Validierung
+8. **Security Misconfiguration** - Sichere Default-Konfigurationen
+9. **Improper Inventory Management** - API-Inventar pflegen
+10. **Unsafe Consumption of APIs** - Validiere externe API-Responses
 
 ## Sicherheitsrichtlinien für Contributions
 
