@@ -204,65 +204,200 @@ UserRole (Join Table)
 
 ## Integration und APIs
 
-### API Design
+> **📖 Vollständige API-Richtlinien**: Für detaillierte API Design Guidelines siehe [API_GUIDELINES.md](API_GUIDELINES.md) v2.0
+
+### API Design Prinzipien
+
+Das Projekt folgt modernen API Design Best Practices:
+
+- **API-as-a-Product**: APIs werden als Produkte mit klarem Kundennutzen behandelt
+- **API-First Design**: APIs werden vor der Implementierung spezifiziert (OpenAPI)
+- **Resource-oriented**: Ressourcen-basiertes Design (Google AIP-121)
+- **RESTful**: Standardisierte HTTP-Methoden und Status-Codes
+- **Stateless**: Jeder Request enthält alle notwendigen Informationen
+
+### Standard HTTP-Methoden
 
 #### RESTful Principles
 ```
-GET    /api/v1/users          # Liste aller User
+GET    /api/v1/users          # Liste aller User (mit Pagination)
 GET    /api/v1/users/:id      # Einzelner User
 POST   /api/v1/users          # Neuer User
-PUT    /api/v1/users/:id      # Update User
+PUT    /api/v1/users/:id      # Replace (ganze Ressource)
 PATCH  /api/v1/users/:id      # Partial Update
 DELETE /api/v1/users/:id      # Delete User
 ```
 
-#### Versioning
-- URL-basiertes Versioning: `/api/v1/`, `/api/v2/`
-- Backward Compatibility für mindestens 2 Versionen
+#### Idempotenz und Safety
 
-#### Response Format
+| Method | Safe | Idempotent |
+|--------|------|------------|
+| GET | ✅ | ✅ |
+| POST | ❌ | ❌* |
+| PUT | ❌ | ✅ |
+| PATCH | ❌ | ❌* |
+| DELETE | ❌ | ✅ |
+
+*Kann idempotent gestaltet werden mittels Idempotency-Key Header
+
+### API Versioning
+
+#### URL-basierte Versionierung
+```
+https://api.example.com/v1/...
+https://api.example.com/v2/...
+```
+
+#### Semantic Versioning (MAJOR.MINOR.PATCH)
+- **MAJOR**: Breaking changes
+- **MINOR**: Backward-compatible additions
+- **PATCH**: Backward-compatible fixes
+
+#### Backward Compatibility
+- Mindestens 12 Monate Support für alte Versionen
+- Deprecation Policy mit Sunset-Headers
+- Aktive Kommunikation bei Breaking Changes
+
+### Request & Response Format
+
+#### Success Response (RFC 7807)
 ```json
 {
-  "status": "success",
   "data": {
-    "id": 1,
-    "name": "Example"
+    "id": "uuid",
+    "type": "user",
+    "attributes": {
+      "name": "John Doe",
+      "email": "john@example.com"
+    },
+    "metadata": {
+      "created_at": "2025-11-13T10:30:00Z",
+      "updated_at": "2025-11-13T10:30:00Z",
+      "version": 1,
+      "etag": "33a64df551425fcc55e4d42a148795d9f25f89d4"
+    }
   },
   "meta": {
-    "timestamp": "2025-11-13T10:00:00Z",
-    "version": "1.0"
+    "request_id": "uuid",
+    "timestamp": "2025-11-13T10:30:00Z"
   }
 }
 ```
 
-#### Error Handling
+#### Problem JSON Error Handling (RFC 7807)
+
+MUST use Problem JSON für standardisierte Fehlerbehandlung:
+
 ```json
 {
-  "status": "error",
-  "error": {
-    "code": "USER_NOT_FOUND",
-    "message": "User with ID 123 not found",
-    "details": {}
+  "type": "https://api.example.com/problems/invalid-request",
+  "title": "Invalid Request",
+  "status": 400,
+  "detail": "The request body contains invalid fields",
+  "instance": "/users/user-123/settings",
+  "errors": [
+    {
+      "field": "email",
+      "code": "INVALID_FORMAT",
+      "message": "Email format is invalid"
+    }
+  ],
+  "trace_id": "uuid"
+}
+```
+
+**Content-Type**: `application/problem+json`
+
+### Pagination
+
+#### Cursor-basierte Pagination (empfohlen)
+- Robuster gegen Datenmutationen
+- Bessere Performance bei großen Datasets
+- Pflicht wenn total > 10.000 oder häufige Änderungen
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "cursor": "eyJpZCI6ICJwcm9kLTEwMSJ9",
+    "has_more": true,
+    "total": 1500
+  },
+  "links": {
+    "self": "https://api.example.com/v1/products?cursor=abc",
+    "next": "https://api.example.com/v1/products?cursor=def",
+    "prev": "https://api.example.com/v1/products?cursor=xyz",
+    "first": "https://api.example.com/v1/products"
   }
 }
+```
+
+### Filtering, Sorting & Searching
+
+```
+GET /api/v1/products?
+  filter[status]=active&
+  filter[category]=electronics&
+  sort=-created_at,+name&
+  search=laptop&
+  fields=id,name,price&
+  embed=manufacturer,reviews
+```
+
+### Rate Limiting
+
+```http
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 987
+X-RateLimit-Reset: 1699862400
+Retry-After: 60  # Bei 429 Status
 ```
 
 ### Authentication & Authorization
 
+> Siehe auch [API_GUIDELINES.md - Authentifizierung & Autorisierung](API_GUIDELINES.md#3-authentifizierung--autorisierung)
+
+#### Unterstützte Authentifizierungs-Mechanismen
+
+- **OAuth2** – für Partner-Integrationen und Third-Party Apps
+  - Authorization Code Flow für Web-Apps
+  - Client Credentials Flow für Service-to-Service
+  - Token-Gültigkeit: 1 Stunde (Access Token), 30 Tage (Refresh Token)
+
+- **SSO (SAML 2.0 / OpenID Connect)** – für interne Benutzer
+  - SAML-Endpoint: `/auth/saml/acs`
+  - OIDC-Discovery: `/.well-known/openid-configuration`
+
+- **API Keys** – für einfache Machine-to-Machine Kommunikation
+  - Header: `X-API-Key: <key>`
+  - Scope-basiert (z.B. `products:read`, `orders:write`)
+  - Rotation: 90 Tage empfohlen
+
 #### Authentication Flow
 ```
 1. User → Login Credentials → Auth Service
-2. Auth Service → Validates → Issues JWT Token
-3. User → Request + JWT → API Gateway
-4. API Gateway → Validates JWT → Forwards to Service
+2. Auth Service → Validates → Issues JWT Token / API Key
+3. User → Request + JWT/API Key → API Gateway
+4. API Gateway → Validates Token → Forwards to Service
 5. Service → Response → API Gateway → User
 ```
 
 #### Authorization Levels
 - **Public**: Keine Authentifizierung erforderlich
 - **Authenticated**: Gültiger Token erforderlich
-- **Role-based**: Spezifische Rolle erforderlich
-- **Permission-based**: Spezifische Permission erforderlich
+- **Role-based**: Spezifische Rolle erforderlich (RBAC)
+- **Permission-based**: Spezifische Permission erforderlich (Scope-basiert)
+
+#### Scope Naming Convention
+```
+<service-name>.<resource>.<access-mode>
+```
+
+Beispiele:
+- `user-service.users.read`
+- `user-service.users.write`
+- `content-service.articles.read`
+- `payment-service.transactions.write`
 
 ## Sicherheitsarchitektur
 
@@ -426,6 +561,7 @@ Storage: Elasticsearch, CloudWatch
 
 ## Weitere Ressourcen
 
+- [API Design Guidelines](API_GUIDELINES.md) - Vollständige API-Richtlinien v2.0
 - [Coding Standards](CODING_STANDARDS.md)
 - [Testing Guidelines](TESTING.md)
 - [Deployment Process](DEPLOYMENT.md)

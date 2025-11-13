@@ -12,6 +12,7 @@ Willkommen im Guidelines-Repository! Dieses Projekt enthält umfassende Richtlin
 
 ### Technische Dokumentation
 - [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Technische Architektur und Design-Entscheidungen
+- [API_GUIDELINES.md](docs/API_GUIDELINES.md) - **API Design Guidelines v2.0** - RESTful API Standards
 - [CODING_STANDARDS.md](docs/CODING_STANDARDS.md) - Programmierstandards und Best Practices
 - [STYLE_GUIDE.md](docs/STYLE_GUIDE.md) - Code-Stil und Formatierungsrichtlinien
 - [TESTING.md](docs/TESTING.md) - Test-Strategien und Qualitätssicherung
@@ -38,6 +39,13 @@ Wenn Sie neu im Projekt sind, empfehlen wir folgende Reihenfolge:
 2. [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Community-Richtlinien
 3. [docs/GIT_WORKFLOW.md](docs/GIT_WORKFLOW.md) - Wie wir mit Git arbeiten
 4. [docs/CODING_STANDARDS.md](docs/CODING_STANDARDS.md) - Wie wir Code schreiben
+
+## 🔌 Für API-Entwickler
+
+Wenn Sie APIs entwickeln, beachten Sie:
+1. [docs/API_GUIDELINES.md](docs/API_GUIDELINES.md) - **Vollständige API Design Guidelines v2.0**
+2. [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - Architektur und Integration
+3. [SECURITY.md](SECURITY.md) - API-spezifische Sicherheitsaspekte
 
 ## 📞 Kontakt und Support
 
