@@ -1,6 +1,7 @@
 # CLAUDE.md - AI Assistant Guide for Guidelines Repository
 
 > **Last Updated:** 2025-11-14
+> **Version:** 1.1
 > **Repository:** Guidelines - Comprehensive Software Development Standards
 > **Language:** Primary documentation is in German (Deutsch)
 
@@ -8,9 +9,10 @@
 
 - **Repository Type:** Documentation/Guidelines Repository
 - **Primary Focus:** Software development best practices, coding standards, API design
-- **Documentation Language:** German
-- **License:** MIT
+- **Documentation Language:** German (Deutsch)
+- **License:** MIT License
 - **Main Branch:** `main`
+- **Repository Description:** Guidelines for coding. Generic are those copied from other well-known entities like Google or Zalando. Custom is a own version. Most files in "custom" are high quality summarization of the originals and in most cases reflect a mix of several generic guidelines.
 
 ## 🎯 Repository Purpose
 
@@ -27,6 +29,25 @@ This repository contains comprehensive guidelines and best practices for softwar
 The repository is divided into:
 - **`/custom/`** - High-quality summaries mixing multiple industry standards (primary content)
 - **`/generic/`** - Placeholder for original guidelines from well-known entities (currently empty)
+
+## 📝 Changelog
+
+### Version 1.1 (2025-11-14)
+
+- Erweiterte Quick Reference mit detaillierter Repository-Beschreibung
+- Präzisierte Versionsinformationen für Hauptdokumente
+- Hinzugefügt: Dokumenten-Versionsinformationen (API Guidelines v2.0, andere v1.0)
+- Verbesserte Struktur-Dokumentation
+- Aktualisierte Referenzen zu allen Hauptdokumenten
+
+### Version 1.0 (2025-11-14)
+
+- Initiale Version der CLAUDE.md
+- Vollständige Repository-Struktur-Dokumentation
+- Git Workflow und Conventions
+- API Design Standards Referenzen
+- Sicherheitsrichtlinien
+- AI Assistant Guidelines und Best Practices
 
 ## 📂 Repository Structure
 
@@ -61,6 +82,46 @@ The repository is divided into:
 │
 └── /generic/                          # Empty (reserved for future use)
 ```
+
+## 📚 Document Overview
+
+### Core Documentation Files
+
+| Document | Version | Updated | Description |
+|----------|---------|---------|-------------|
+| **API_GUIDELINES.md** | v2.0 | 2024-11 | Complete API design standards with Problem JSON (RFC 7807) |
+| **ARCHITECTURE.md** | v1.0 | 2025-11-13 | System architecture, microservices, authentication patterns |
+| **CODING_STANDARDS.md** | v1.0 | 2025-11-13 | Clean Code, SOLID principles, best practices |
+| **STYLE_GUIDE.md** | v1.0 | 2025-11-13 | Code formatting and style conventions |
+| **TESTING.md** | v1.0 | 2025-11-13 | TDD, test pyramid, coverage requirements (80%+) |
+| **GIT_WORKFLOW.md** | v1.0 | 2025-11-13 | Git Flow, Conventional Commits, code review |
+| **DEPLOYMENT.md** | v1.0 | 2025-11-13 | CI/CD, deployment strategies, Kubernetes |
+| **SECURITY.md** | - | 2025-11-13 | Security policy, vulnerability reporting |
+| **CONTRIBUTING.md** | - | 2025-11-13 | Contribution guidelines and workflow |
+| **CODE_OF_CONDUCT.md** | - | 2025-11-13 | Community behavior standards |
+
+### Key Features by Document:
+
+**API_GUIDELINES.md (v2.0)** - The most comprehensive document:
+- 23 main sections covering all aspects of API design
+- Implementation checklist with 100+ items
+- Problem JSON (RFC 7807) for standardized error handling
+- Comprehensive pagination, filtering, sorting guidelines
+- Rate limiting, timeouts, batch operations
+- API governance and testing requirements
+
+**ARCHITECTURE.md** - System design foundation:
+- Multiple architecture patterns (microservices, event-driven, layered)
+- Authentication methods (OAuth2, SSO, API Keys)
+- Integration patterns and best practices
+- API versioning strategies
+
+**CODING_STANDARDS.md** - Code quality bible:
+- Clean Code principles with practical examples
+- SOLID principles explained with code samples
+- Error handling patterns
+- Performance optimization guidelines
+- Security best practices
 
 ## 🔑 Key Conventions & Standards
 
@@ -334,25 +395,67 @@ Follow process in `SECURITY.md`:
 ## 📚 Key Documents to Reference
 
 ### For API Development:
-- **`custom/docs/API_GUIDELINES.md`** - Complete API design standards (v2.0)
-- **`custom/docs/ARCHITECTURE.md`** - Integration and authentication patterns
+- **`custom/docs/API_GUIDELINES.md`** (v2.0, 2024-11) - Complete API design standards
+  - API-as-a-Product principle, API-First design
+  - Problem JSON (RFC 7807) error handling
+  - Resource-oriented design (Google AIP-121)
+  - Pagination, filtering, sorting, searching
+  - Rate limiting, timeouts, idempotency
+  - Deprecation policy with Sunset/Deprecation headers
+  - Comprehensive implementation checklist
+- **`custom/docs/ARCHITECTURE.md`** (v1.0, 2025-11-13) - System architecture and integration patterns
+  - Microservices, event-driven, layered architectures
+  - Authentication & authorization patterns (OAuth2, SSO, API Keys)
+  - API versioning strategies
+  - Integration patterns and best practices
 
 ### For Code Quality:
-- **`custom/docs/CODING_STANDARDS.md`** - Programming standards and best practices
-- **`custom/docs/STYLE_GUIDE.md`** - Code formatting and style
+- **`custom/docs/CODING_STANDARDS.md`** (v1.0, 2025-11-13) - Programming standards and best practices
+  - Clean Code principles (DRY, KISS, YAGNI)
+  - SOLID principles with examples
+  - Error handling, performance, security
+  - Refactoring guidelines
+- **`custom/docs/STYLE_GUIDE.md`** (v1.0, 2025-11-13) - Code formatting and style conventions
+  - Language-specific style guides
+  - Naming conventions
+  - Code organization and structure
 
 ### For Testing:
-- **`custom/docs/TESTING.md`** - Test strategies, TDD, coverage requirements
+- **`custom/docs/TESTING.md`** (v1.0, 2025-11-13) - Test strategies and quality assurance
+  - Test-Driven Development (TDD)
+  - Test pyramid (Unit, Integration, E2E)
+  - Code coverage requirements (80% minimum, 90%+ for critical)
+  - Testing frameworks and CI/CD integration
 
 ### For Git Workflow:
-- **`custom/docs/GIT_WORKFLOW.md`** - Detailed branch strategy and commit guidelines
+- **`custom/docs/GIT_WORKFLOW.md`** (v1.0, 2025-11-13) - Git workflow and branch strategy
+  - Git Flow inspired branch strategy
+  - Conventional Commits specification
+  - Code review checklist
+  - Merge strategies and best practices
 
 ### For Contributing:
-- **`custom/CONTRIBUTING.md`** - How to contribute to the project
-- **`custom/CODE_OF_CONDUCT.md`** - Community guidelines
+- **`custom/CONTRIBUTING.md`** (2025-11-13) - Contribution guidelines
+  - How to contribute to the project
+  - Development setup and workflow
+  - Pull request process
+- **`custom/CODE_OF_CONDUCT.md`** (2025-11-13) - Community behavior standards
+  - Expected behavior and responsibilities
+  - Enforcement and reporting
+
+### For Security:
+- **`custom/SECURITY.md`** (2025-11-13) - Security policy and vulnerability reporting
+  - Supported versions
+  - Vulnerability disclosure process
+  - Security best practices
+  - Contact information for security issues
 
 ### For Deployment:
-- **`custom/docs/DEPLOYMENT.md`** - Deployment processes and CI/CD
+- **`custom/docs/DEPLOYMENT.md`** (v1.0, 2025-11-13) - Deployment processes and CI/CD
+  - Deployment strategies (blue-green, canary, rolling)
+  - CI/CD pipelines
+  - Container orchestration (Docker, Kubernetes)
+  - Monitoring and rollback procedures
 
 ## 🔍 Finding Information
 
@@ -409,19 +512,45 @@ grep -n "hotfix" custom/docs/GIT_WORKFLOW.md
 ## 🎓 Learning Resources
 
 ### Within This Repository:
-1. Start with `custom/README.md` for overview
-2. Read `custom/CONTRIBUTING.md` for contribution process
-3. Study `custom/docs/CODING_STANDARDS.md` for code quality
-4. Review `custom/docs/GIT_WORKFLOW.md` for Git practices
-5. Reference `custom/docs/API_GUIDELINES.md` for API development
+
+#### 🚀 For Quick Start (Schnellstart):
+1. **`custom/CODE_OF_CONDUCT.md`** - Start here to understand community standards
+2. **`custom/CONTRIBUTING.md`** - Learn how to contribute to the project
+3. **`custom/docs/CODING_STANDARDS.md`** - Understand code quality expectations
+4. **`custom/docs/GIT_WORKFLOW.md`** - Master the Git workflow
+
+#### 💡 For New Contributors (Neue Mitwirkende):
+Recommended reading order:
+1. **`custom/CONTRIBUTING.md`** - Basic contribution rules
+2. **`custom/CODE_OF_CONDUCT.md`** - Community guidelines
+3. **`custom/docs/GIT_WORKFLOW.md`** - How we work with Git
+4. **`custom/docs/CODING_STANDARDS.md`** - How we write code
+
+#### 🔌 For API Developers (API-Entwickler):
+Focus on these documents:
+1. **`custom/docs/API_GUIDELINES.md`** (v2.0) - Complete API Design Guidelines
+2. **`custom/docs/ARCHITECTURE.md`** - Architecture and integration patterns
+3. **`custom/SECURITY.md`** - API-specific security aspects
+
+#### 📖 Full Documentation Path:
+1. Start with **`custom/README.md`** for repository overview
+2. Read **`custom/CONTRIBUTING.md`** for contribution process
+3. Study **`custom/docs/CODING_STANDARDS.md`** for code quality standards
+4. Review **`custom/docs/GIT_WORKFLOW.md`** for Git best practices
+5. Reference **`custom/docs/API_GUIDELINES.md`** for API development
+6. Consult **`custom/docs/TESTING.md`** for testing requirements
+7. Check **`custom/docs/DEPLOYMENT.md`** for deployment strategies
 
 ### External Standards Referenced:
 - **Conventional Commits:** https://www.conventionalcommits.org/
-- **Google AIP-121:** Resource-oriented design
-- **RFC 7807:** Problem JSON format
+- **Google AIP-121:** Resource-oriented design standards
+- **RFC 7807:** Problem JSON format for API errors
 - **RFC 2119:** Requirement level keywords (MUST, SHOULD, MAY)
 - **OpenAPI Specification:** API documentation standard
-- **Semantic Versioning:** Version numbering scheme
+- **Semantic Versioning:** Version numbering scheme (MAJOR.MINOR.PATCH)
+- **Git Flow:** Branch management workflow
+- **SOLID Principles:** Object-oriented design principles
+- **Clean Code:** Robert C. Martin's clean code principles
 
 ## 🔄 Keeping This Document Updated
 
@@ -436,6 +565,9 @@ This CLAUDE.md file should be updated when:
 
 ---
 
-**Version:** 1.0
+**Version:** 1.1
 **Created:** 2025-11-14
+**Last Updated:** 2025-11-14
 **For Questions:** Refer to specific guideline documents in `/custom/docs/` or create an issue following the templates in `.github/issue_template/`
+
+**Document Status:** ✅ Current and actively maintained
